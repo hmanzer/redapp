@@ -1,0 +1,28 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/admin/redapp
+
+permissions:
+  - object: /home/admin/redapp
+    owner: admin
+    group: admin
+
+hooks:
+  BeforeInstall:
+    - location: codedeploy/before_install.sh
+      runas: admin
+      timeout: 400
+  AfterInstall:
+    - location: codedeploy/after_install.sh
+      timeout: 300
+      runas: admin
+  ApplicationStart:
+    - location: codedeploy/application_start.sh
+      runas: admin
+      timeout: 400
+  ValidateService:
+    - location: codedeploy/validate.sh
+      runas: admin
+      timeout: 400
