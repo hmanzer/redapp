@@ -54,11 +54,11 @@ resource "aws_lb_target_group" "frontend_alb" {
 
   health_check {
     healthy_threshold   = "3"
-    interval            = "30" #ori 300
+    interval            = "30"
     protocol            = "HTTP"
     port                = "traffic-port"
     matcher             = "200"
-    timeout             = "5" #ori 3
+    timeout             = "5"
     path                = "/"
     unhealthy_threshold = "2"
   }

@@ -29,20 +29,20 @@ variable "public_availability_zone_1" {
   description = "ap-southeast-1a"
 }
 
-# variable "public_availability_zone_2" {
-#   type        = string
-#   description = "ap-southeast-1b"
-# }
+variable "public_availability_zone_2" {
+  type        = string
+  description = "ap-southeast-1b"
+}
 
 variable "private_availability_zone_1" {
   type        = string
   description = "ap-southeast-1a"
 }
 
-# variable "private_availability_zone_2" {
-#   type        = string
-#   description = "ap-southeast-1b"
-# }
+variable "private_availability_zone_2" {
+  type        = string
+  description = "ap-southeast-1b"
+}
 
 #####
 # Public subnets
@@ -53,10 +53,10 @@ variable "public_subnet_1" {
   description = "172.31.1.0/24"
 }
 
-# variable "public_subnet_2" {
-#   type        = string
-#   description = "172.31.2.0/24"
-# }
+variable "public_subnet_2" {
+  type        = string
+  description = "172.31.2.0/24"
+}
 
 #####
 # Private subnets
@@ -64,4 +64,9 @@ variable "public_subnet_1" {
 variable "private_subnet_1" {
   type        = string
   description = "172.31.3.0/24"
+}
+
+variable "private_subnet_2" {
+  type        = string
+  description = "172.31.4.0/24"
 }
