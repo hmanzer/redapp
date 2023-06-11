@@ -4,8 +4,8 @@ module "redapp_vpc" {
   environment                 = var.environment
   vpc_name                    = "redapp_vpc"
   vpc_cidr_block              = "172.31.0.0/16"
-  public_availability_zone_1  = "ap-southeast-2a"
-  private_availability_zone_1 = "ap-southeast-2a"
+  public_availability_zone_1  = "ap-southeast-1a"
+  private_availability_zone_1 = "ap-southeast-1a"
   public_subnet_1             = "172.31.1.0/24"
   private_subnet_1            = "172.31.3.0/24"
 }
