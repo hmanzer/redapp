@@ -6,8 +6,8 @@ files:
 
 permissions:
   - object: /home/admin/redapp
-    owner: admin
-    group: admin
+    owner: ubuntu
+    group: ubuntu
 
 hooks:
   BeforeInstall:
