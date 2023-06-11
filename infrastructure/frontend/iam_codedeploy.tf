@@ -24,11 +24,14 @@ data "aws_iam_policy_document" "hmz_jenkins_codedeploy_user" {
 
   statement {
     sid = "HMZJenkinsPipelineCodeDeploy"
-    actions = [
-      "s3:*"
+   actions = [
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:ListBucket"
     ]
     resources = [
       format("%s%s%s", "arn:aws:s3:::", module.redapp_frontend.s3_frontend_artifacts_bucket_name, "/*"),
+      format("%s%s", "arn:aws:s3:::", module.redapp_frontend.s3_frontend_artifacts_bucket_name),
     ]
   }
 
