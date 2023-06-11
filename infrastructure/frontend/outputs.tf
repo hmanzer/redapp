@@ -19,7 +19,7 @@ output "elb_frontend_dns_name" {
 
 
 output "vpc_id" {
-  value = module.redapp_frontend.vpc_id
+  value = module.redapp_vpc.vpc_id
 }
 
 

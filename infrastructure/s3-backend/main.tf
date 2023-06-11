@@ -18,9 +18,17 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_s3_back
   }
 }
 
+resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
+  bucket = aws_s3_bucket.terraform_s3_backend_main.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
 resource "aws_s3_bucket_acl" "terraform_s3_backend_main" {
   bucket = aws_s3_bucket.terraform_s3_backend_main.id
   acl        = "private"
+  depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
 }
 
 resource "aws_s3_bucket_versioning" "terraform_s3_backend_main" {

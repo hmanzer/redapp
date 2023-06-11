@@ -1,6 +1,6 @@
 module "redapp_vpc" {
   source                      = "../modules/redapp_vpc"
-  region                      = "ap-southeast-2"
+  region                      = "ap-southeast-1"
   environment                 = var.environment
   vpc_name                    = "redapp_vpc"
   vpc_cidr_block              = "172.31.0.0/16"
@@ -23,7 +23,7 @@ module "redapp_frontend" {
   environment                       = var.environment
   auto_traffic_rerouting            = "true"
   description_of_project            = "redapp simple website"
-  key_name                          = "hmz-devops"
+  key_name                          = "devops-sg"
   ami_image_id                      = "ami-00b4480c8529303fe" # Debian 10 hardened
   instance_type_frontend            = "t3a.small"
   init_flag                         = "true"          #First time?

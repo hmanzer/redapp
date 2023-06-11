@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "hmz_jenkins_codedeploy_user" {
     ]
   }
 
-
+}
 resource "aws_iam_policy" "hmz_jenkins_codedeploy_user" {
   name   = "hmz-jenkins-codedeploy-user"
   path   = "/"
@@ -42,6 +42,4 @@ resource "aws_iam_policy" "hmz_jenkins_codedeploy_user" {
 resource "aws_iam_user_policy_attachment" "hmz_jenkins_codedeploy_user" {
   user       = aws_iam_user.hmz_jenkins_codedeploy_user.name
   policy_arn = aws_iam_policy.hmz_jenkins_codedeploy_user.arn
-}
-
 }

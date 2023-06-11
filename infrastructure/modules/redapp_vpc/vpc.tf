@@ -19,7 +19,6 @@ resource "aws_subnet" "public_main_1" {
   depends_on = [ aws_vpc.main ]
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.public_subnet_1
-  ipv6_cidr_block         = var.enable_ipv6 ? cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, "1") : ""
   availability_zone       = var.public_availability_zone_1
   map_public_ip_on_launch = true
   tags = {
@@ -68,7 +67,7 @@ resource "aws_subnet" "private_main_1" {
 # IPv4 Internet gateway for VPC--> public internet
 #####
 resource "aws_internet_gateway" "public_main" {
-  depends_on = [ aws_vpc.main, aws_subnet.public_main_1, aws_subnet.public_main_2]
+  depends_on = [ aws_vpc.main, aws_subnet.public_main_1]
   vpc_id = aws_vpc.main.id
 
   tags = {
@@ -106,21 +105,21 @@ resource "aws_route_table_association" "public_main_1_RT_association" {
 # NAT Gateway for VPC--> for private subnets
 #####
 
-resource "aws_eip" "Nat-Gateway-EIP-1" {
-  vpc = true
+resource "aws_eip" "NatGatewayEIP_1" {
+  domain = "vpc"
 }
 
-resource "aws_nat_gateway" "NAT_GATEWAY-1" {
+resource "aws_nat_gateway" "NatGateway_1" {
   depends_on = [
-    aws_eip.Nat-Gateway-EIP-1
+    aws_eip.NatGatewayEIP_1
   ]
 
-  allocation_id = aws_eip.Nat-Gateway-EIP-1.id
+  allocation_id = aws_eip.NatGatewayEIP_1.id
   
   # Associating it in the Public Subnet!
   subnet_id = aws_subnet.private_main_1.id
   tags = {
-    Name = "Nat-Gateway_1"
+    Name = "Nat Gateway 1"
   }
 }
 
@@ -142,16 +141,16 @@ resource "aws_nat_gateway" "NAT_GATEWAY-1" {
 #   }
 # }
 
-resource "aws_route_table" "Private-subnet-1-RT" {
+resource "aws_route_table" "private_subnet_1_RT" {
   depends_on = [
-    aws_nat_gateway.NAT_GATEWAY-1
+    aws_nat_gateway.NatGateway_1
   ]
 
   vpc_id = aws_vpc.main.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.NAT_GATEWAY-1.id
+    nat_gateway_id = aws_nat_gateway.NatGateway_1.id
   }
 
   tags = {
@@ -162,9 +161,9 @@ resource "aws_route_table" "Private-subnet-1-RT" {
 
 resource "aws_route_table_association" "NAT-Gateway-RT-Association" {
   depends_on = [
-    aws_route_table.NAT-Gateway-RT-1
+    aws_route_table.private_subnet_1_RT
   ]
   subnet_id      = aws_subnet.private_main_1.id
   
-  route_table_id = aws_route_table.Private-subnet-1-RT.id
+  route_table_id = aws_route_table.private_subnet_1_RT.id
 }
