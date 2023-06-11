@@ -1,4 +1,4 @@
 #!/bin/bash
-mkdir /home/admin/redapp
-cd /home/admin/redapp
+mkdir /home/ubuntu/redapp
+cd /home/ubuntu/redapp
 sudo npm install
