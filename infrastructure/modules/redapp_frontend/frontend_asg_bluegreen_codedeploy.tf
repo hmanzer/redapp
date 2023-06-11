@@ -74,7 +74,7 @@ resource "aws_launch_template" "frontend" {
   iam_instance_profile {
     name = aws_iam_instance_profile.frontend_instance_profile.name
   }
-
+  key_name = var.key_name
   user_data = filebase64("${path.module}/text/userdata.sh")
 }
 

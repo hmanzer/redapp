@@ -30,8 +30,8 @@ module "redapp_frontend" {
   auto_traffic_rerouting            = "true"
   description_of_project            = "redapp simple website"
   key_name                          = "devops-sg"
-  ami_image_id                      = "ami-0df7a207adb9748c7" # Debian 10 hardened
+  ami_image_id                      = "ami-0df7a207adb9748c7" # Ubuntu
   instance_type_frontend            = "t3a.small"
   init_flag                         = "true"          #First time?
-  is_public                         = "true"
+  is_public                         = "false"         #keep EC2 in private subnets
 }

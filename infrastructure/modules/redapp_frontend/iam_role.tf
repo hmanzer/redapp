@@ -37,6 +37,18 @@ resource "aws_iam_role_policy_attachment" "ec2_s3fullaccess_attach" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 }
 
+# For SSM Session manager to work
+resource "aws_iam_role_policy_attachment" "ec2_ssm" {
+  role       = aws_iam_role.frontend_ec2_cd_s3_instance_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_patch" {
+  role       = aws_iam_role.frontend_ec2_cd_s3_instance_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMPatchAssociation"
+}
+
+
 
 resource "aws_iam_instance_profile" "frontend_instance_profile" {
   name = format("%s_%s", var.project_name, "ec2_codedeploy_s3_role")

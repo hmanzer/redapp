@@ -53,7 +53,6 @@ function install_ssm_snap {
 
 export LC_ALL=C.UTF-8
 export DEBIAN_FRONTEND=noninteractive
-export REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r ".region")
 export AUTOUPDATE=false
 lock_wait apt-get update
 
@@ -62,12 +61,12 @@ ${initial_commands}
 exec 1> >(logger -s -t $(basename $0)) 2>&1
 
 #install awscliv2
-lock_wait apt-get install unzip jq ruby
+lock_wait apt-get install -y unzip jq ruby
 mkdir -p /tmp/awscliv2
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2/awscliv2.zip"
 unzip /tmp/awscliv2/awscliv2.zip -d /tmp/awscliv2/
 ./tmp/awscliv2/aws/install
-
+export REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r ".region")
 cd /tmp/
   wget https://aws-codedeploy-${REGION}.s3.amazonaws.com/latest/install
   chmod +x ./install

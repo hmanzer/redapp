@@ -116,9 +116,9 @@ resource "aws_nat_gateway" "NatGateway_1" {
   allocation_id = aws_eip.NatGatewayEIP_1.id
   
   # Associating it in the Public Subnet!
-  subnet_id = aws_subnet.private_main_1.id
+  subnet_id = aws_subnet.public_main_2.id
   tags = {
-    Name = "Nat Gateway 1"
+    Name = "NatGateway1"
   }
 }
 
@@ -140,7 +140,7 @@ resource "aws_nat_gateway" "NatGateway_1" {
 #   }
 # }
 
-resource "aws_route_table" "private_subnet_1_RT" {
+resource "aws_route_table" "private_subnet_RT" {
   depends_on = [
     aws_nat_gateway.NatGateway_1
   ]
@@ -153,42 +153,25 @@ resource "aws_route_table" "private_subnet_1_RT" {
   }
 
   tags = {
-    Name = "Route Table for NAT Gateway"
+    Name = "Private subnet Route Table"
   }
 
 }
 
-resource "aws_route_table" "private_subnet_2_RT" {
-  depends_on = [
-    aws_nat_gateway.NatGateway_1
-  ]
-
-  vpc_id = aws_vpc.main.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.NatGateway_1.id
-  }
-
-  tags = {
-    Name = "Route Table for NAT Gateway"
-  }
-
-}
 resource "aws_route_table_association" "NAT-Gateway-RT-Association1" {
   depends_on = [
-    aws_route_table.private_subnet_1_RT
+    aws_route_table.private_subnet_RT
   ]
   subnet_id      = aws_subnet.private_main_1.id
   
-  route_table_id = aws_route_table.private_subnet_1_RT.id
+  route_table_id = aws_route_table.private_subnet_RT.id
 }
 
 resource "aws_route_table_association" "NAT-Gateway-RT-Association2" {
   depends_on = [
-    aws_route_table.private_subnet_2_RT
+    aws_route_table.private_subnet_RT
   ]
   subnet_id      = aws_subnet.private_main_2.id
   
-  route_table_id = aws_route_table.private_subnet_2_RT.id
+  route_table_id = aws_route_table.private_subnet_RT.id
 }
