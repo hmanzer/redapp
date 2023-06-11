@@ -18,7 +18,21 @@ data "aws_iam_policy_document" "hmz_jenkins_codedeploy_user" {
     ]
 
     resources = [
-      "arn:aws:codedeploy:ap-southeast-1::*"
+      "*"
+    ]
+  }
+
+  statement {
+    sid = "2"
+    actions = [
+      "codedeploy:*"
+    ]
+
+    resources = [
+        "arn:aws:codedeploy:*:695212334562:instance:*",
+        "arn:aws:codedeploy:*:695212334562:deploymentgroup:*/*",
+        "arn:aws:codedeploy:*:695212334562:application:*",
+        "arn:aws:codedeploy:*:695212334562:deploymentconfig:*"
     ]
   }
 
