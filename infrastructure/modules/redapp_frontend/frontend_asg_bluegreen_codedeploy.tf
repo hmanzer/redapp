@@ -130,8 +130,7 @@ resource "aws_codedeploy_deployment_group" "frontend" {
 
   blue_green_deployment_config {
     deployment_ready_option {
-      action_on_timeout = local.action_on_timeout #STOP_DEPLOYMENT will wait for manual reroute on console
-      #wait_time_in_minutes = 120
+      action_on_timeout = local.action_on_timeout
     }
 
     green_fleet_provisioning_option {
@@ -143,11 +142,8 @@ resource "aws_codedeploy_deployment_group" "frontend" {
       termination_wait_time_in_minutes = "1"
     }
   }
-
-  # this can be set to []
   autoscaling_groups = [var.init_flag ? aws_autoscaling_group.frontend[0].id : ""]
 
-  # prevent changes to the tfstate file for any future CodeDeploy deployments, due to new ASGs
   lifecycle {
     ignore_changes = [autoscaling_groups]
   }
