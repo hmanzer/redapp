@@ -64,11 +64,29 @@ resource "aws_launch_configuration" "frontend" {
   }
 }
 
+resource "aws_launch_template" "frontend" {
+  name_prefix = local.project_name_with_env
+  image_id = var.ami_image_id
+  instance_type = var.instance_type_frontend
+
+  vpc_security_group_ids = [aws_security_group.frontend_ec2.id]
+
+  iam_instance_profile {
+    name = aws_iam_instance_profile.frontend_instance_profile.name
+  }
+
+  user_data = filebase64("${path.module}/text/userdata.sh")
+}
+
 resource "aws_autoscaling_group" "frontend" {
   count                = var.init_flag ? 1 : 0
   max_size             = 2
   min_size             = 1
-  launch_configuration = aws_launch_configuration.frontend.name
+  # launch_configuration = aws_launch_configuration.frontend.name
+  launch_template {
+    id      = aws_launch_template.frontend.id
+    version = aws_launch_template.frontend.default_version
+  }
   vpc_zone_identifier  = var.is_public ? var.public_subnet_ids : var.private_subnet_ids
 }
 
@@ -88,7 +106,7 @@ resource "aws_codedeploy_deployment_config" "frontend" {
 
   minimum_healthy_hosts {
     type  = "HOST_COUNT"
-    value = 0 #only 0 is needed
+    value = 0
   }
 }
 
