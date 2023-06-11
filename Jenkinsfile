@@ -15,7 +15,7 @@ pipeline {
                     bat '''
                     pwd
                     set ZIP_FILE=redapp.%VERSION%.zip
-                    cd redapp/app
+                    cd app
                     zip -r %ZIP_FILE% appspec.yml codedeploy index.js package.json home.html
                     aws s3 cp %ZIP_FILE% s3://%DEPLOY_BUCKET%
                     aws deploy create-deployment --application-name %APPLICATION_NAME% --deployment-config-name %DEPLOYMENT_CONFIG_NAME% --deployment-group-name %GROUP_NAME% --s3-location bucket=%DEPLOY_BUCKET%,bundleType=zip,key=%ZIP_FILE% | jq --raw-output ".deploymentId" > temp.txt
