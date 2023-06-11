@@ -1,0 +1,28 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/redapp
+
+permissions:
+  - object: /home/ubuntu/redapp
+    owner: ubuntu
+    group: ubuntu
+
+hooks:
+  BeforeInstall:
+    - location: codedeploy/before_install.sh
+      runas: ubuntu
+      timeout: 400
+  AfterInstall:
+    - location: codedeploy/after_install.sh
+      timeout: 300
+      runas: ubuntu
+  ApplicationStart:
+    - location: codedeploy/application_start.sh
+      runas: ubuntu
+      timeout: 400
+  ValidateService:
+    - location: codedeploy/validate.sh
+      runas: ubuntu
+      timeout: 400
