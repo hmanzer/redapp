@@ -34,7 +34,7 @@ resource "aws_alb" "frontend_alb" {
   name               = "${var.project_name}-frontend"
   internal           = false
   load_balancer_type = "application"
-  subnets            = var.private_subnet_ids
+  subnets            = var.public_subnet_ids
   security_groups    = [aws_security_group.frontend_alb.id]
 
   tags = {
