@@ -29,16 +29,3 @@ output "vpc_id" {
 output "s3_frontend_artifacts_bucket_name" {
   value = module.redapp_frontend.s3_frontend_artifacts_bucket_name
 }
-
-
-#####
-# Extras
-#####
-# output "dgm_bitbucket_codedeploy_user" {
-#  value = aws_iam_access_key.dgm_bitbucket_codedeploy_user.encrypted_secret
-# }
-
-# output "dgm_bitbucket_codedeploy_user_secret" {
-#   value = aws_iam_access_key.dgm_bitbucket_codedeploy_user.secret
-# }
-

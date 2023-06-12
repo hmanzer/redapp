@@ -88,7 +88,28 @@ resource "aws_iam_role_policy_attachment" "codedeploy_attach" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
 }
 
-resource "aws_iam_role_policy_attachment" "codedeploy_attach" {
+data "aws_iam_policy_document" "codedeploy_attach_policy" {
+  statement {
+    sid = "1"
+    actions = [
+      "iam:PassRole",
+      "ec2:RunInstances",
+      "ec2:CreateTags"
+    ]
+
+    resources = [
+      "*"
+    ]
+  }
+
+}
+resource "aws_iam_policy" "codedeploy_attach_role" {
+  name   = "codedeploy-additional-role"
+  path   = "/"
+  policy = data.aws_iam_policy_document.codedeploy_attach_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "codedeploy_attach2" {
   role       = aws_iam_role.frontend_codedeploy_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AutoScalingFullAccess"
+  policy_arn = aws_iam_policy.codedeploy_attach_role.arn
 }

@@ -2,7 +2,6 @@ pipeline {
   agent any  
   environment {
     doError = '0'
-    VERSION = '0.1'
     APPLICATION_NAME = 'dev-hmz-redapp'
     DEPLOYMENT_CONFIG_NAME = 'CodeDeployDefault.OneAtATime'
     DEPLOY_BUCKET='hmz-redapp-frontend'
